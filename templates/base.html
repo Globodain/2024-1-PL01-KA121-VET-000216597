@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Lukas Blog</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet">
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+      rel="stylesheet" referrerpolicy="no-referrer" />
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light mb-4">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="{{ url_for('index') }}">Lukas Blog</a>
+        <div class="collapse navbar-collapse">
+          <ul class="navbar-nav ms-auto">
+            {% if current_user.is_authenticated %}
+              <!-- New Post link for all logged-in users -->
+              <li class="nav-item">
+                <a class="nav-link" href="{{ url_for('create_post') }}">
+                  <i class="fa fa-pencil-alt"></i> New Post
+                </a>
+              </li>
+              {% if current_user.role == 'admin' %}
+              <li class="nav-item">
+                <a class="nav-link" href="{{ url_for('admin_page') }}">
+                  <i class="fa fa-star"></i> Admin Panel
+                </a>
+              </li>
+              {% endif %}
+              <li class="nav-item">
+                <a class="nav-link" href="{{ url_for('profile') }}">
+                  <i class="fa fa-user"></i> {{ current_user.username }}
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="{{ url_for('logout') }}">
+                  <i class="fa fa-sign-out-alt"></i> Logout
+                </a>
+              </li>
+            {% else %}
+              <li class="nav-item">
+                <a class="nav-link" href="{{ url_for('login') }}">
+                  <i class="fa fa-sign-in-alt"></i> Login
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="{{ url_for('register') }}">
+                  <i class="fa fa-user-plus"></i> Register
+                </a>
+              </li>
+            {% endif %}
+          </ul>
+        </div>
+      </div>
+    </nav>
+    <div class="container">
+      {% with messages = get_flashed_messages() %}
+        {% if messages %}
+          <div class="alert alert-info">
+            {% for m in messages %}
+              <div>{{ m }}</div>
+            {% endfor %}
+          </div>
+        {% endif %}
+      {% endwith %}
+      {% block content %}{% endblock %}
+    </div>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js">
+    </script>
+  </body>
+</html>

@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+{% block content %}
+  <div class="mb-3 d-flex align-items-center">
+    {% if post.author_role == 'admin' %}
+      <i class="fa fa-star text-warning ms-1"></i>&nbsp;&nbsp;
+    {% endif %}
+    {% if post.author_avatar %}
+      <img src="{{ url_for('static', filename='avatars/' + post.author_avatar) }}"
+           class="rounded-circle me-2" width="40">
+    {% else %}
+      <i class="fa fa-user-circle fa-2x me-2 text-secondary" width="40"></i>
+    {% endif %}
+    <strong>{{ post.author_name }}</strong>
+  </div>
+  <h2>{{ post.title }}</h2>
+  <p>{{ post.body }}</p>
+
+  <div class="mb-4">
+    {% if current_user.is_authenticated %}
+      <form method="post" class="d-inline">
+        <button name="action" value="like" type="submit"
+                class="btn btn-outline-primary btn-sm">
+          <i class="fa fa-thumbs-up"></i> {{ post.likes }}
+        </button>
+      </form>
+    {% else %}
+      <span><i class="fa fa-thumbs-up"></i> {{ post.likes }}</span>
+    {% endif %}
+    &nbsp;|&nbsp;
+    <span><i class="fa fa-comment"></i> {{ post.comments_count }}</span>
+  </div>
+
+  <hr>
+  <h4>Comments</h4>
+  {% if current_user.is_authenticated %}
+    <form method="post" class="mb-4">
+      {{ form.hidden_tag() }}
+      <div class="mb-3">
+        {{ form.content.label(class_="form-label") }}
+        {{ form.content(class_="form-control", rows=3) }}
+      </div>
+      {{ form.submit(class_="btn btn-success btn-sm") }}
+    </form>
+  {% else %}
+    <p><a href="{{ url_for('login') }}">Log in</a> to like or comment.</p>
+  {% endif %}
+
+  <ul class="list-group">
+    {% for c in comments %}
+      <li class="list-group-item d-flex">
+        {% if c.avatar %}
+          <img src="{{ url_for('static', filename='avatars/' + c.avatar) }}"
+               class="rounded-circle me-2" width="30">
+        {% else %}
+          <i class="fa fa-user-circle fa-lg me-2 text-secondary"></i>
+        {% endif %}
+        <div>
+          <strong>{{ c.username }}</strong>
+          <small class="text-muted">— {{ c.created_at.strftime('%Y-%m-%d %H:%M') }}</small>
+          <p class="mb-0">{{ c.content }}</p>
+        </div>
+      </li>
+    {% endfor %}
+  </ul>
+{% endblock %}

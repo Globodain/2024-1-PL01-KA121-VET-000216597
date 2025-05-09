@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block content %}
+  <h1>All Posts</h1>
+  <ul class="list-unstyled">
+    {% for p in posts %}
+      <li class="mb-4">
+        <div class="d-flex align-items-center mb-1">
+          {% if p.author_role == 'admin' %}
+            <i class="fa fa-star text-warning ms-1"></i>&nbsp;&nbsp;
+          {% endif %}
+          {% if p.author_avatar %}
+            <img src="{{ url_for('static', filename='avatars/' + p.author_avatar) }}"
+                 class="rounded-circle me-2" width="40">
+          {% else %}
+            <i class="fa fa-user-circle fa-2x me-2 text-secondary" width="40"></i>
+          {% endif %}
+          <strong>{{ p.author_name }}</strong>
+        </div>
+        <a href="{{ url_for('post_detail', post_id=p.id) }}" class="h5">{{ p.title }}</a>
+        <div>
+          <i class="fa fa-thumbs-up"></i> {{ p.likes }}
+          &nbsp;|&nbsp;
+          <i class="fa fa-comment"></i> {{ p.comments }}
+        </div>
+      </li>
+    {% endfor %}
+  </ul>
+{% endblock %}

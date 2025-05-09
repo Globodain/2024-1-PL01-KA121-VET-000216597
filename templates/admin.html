@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block content %}
+  <h2>Admin Panel</h2>
+
+  <h4>Existing Posts</h4>
+  <ul class="list-group">
+    {% for p in posts %}
+      <li class="list-group-item d-flex justify-content-between align-items-center">
+        <div>
+          {{ p.title }}
+        </div>
+        <form method="post"
+              action="{{ url_for('admin_delete_post', post_id=(p._id)) }}"
+              onsubmit="return confirm('Are you sure you want to delete this post?');">
+          <button class="btn btn-sm btn-danger">
+            <i class="fa fa-trash"></i> Delete
+          </button>
+        </form>
+      </li>
+    {% endfor %}
+  </ul>
+{% endblock %}
