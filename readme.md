@@ -16,3 +16,10 @@ flask translate update
 
 To compile languages after updating execute:
 flask translate compile
+
+
+------------------------------------------------
+translation service
+------------------------------------------------
+Execute this with your key to the Microsoft Translator API:
+set MS_TRANSLATOR_KEY=<paste-your-key-here>
