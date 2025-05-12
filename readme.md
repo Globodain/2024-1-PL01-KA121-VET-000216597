@@ -1,6 +1,14 @@
 Write here the final project report and how deploy your code
 
 
+------------------------------------------------
+Required Python packages
+------------------------------------------------
+Execute this to generate file with rquired Python packages:
+pip freeze > requirements.txt
+
+Execute this to install all Python listed in requirements.txt:
+pip install -r requirements.txt
 
 
 
@@ -16,6 +24,7 @@ flask translate update
 
 To compile languages after updating execute:
 flask translate compile
+
 
 
 ------------------------------------------------
