@@ -1,4 +1,10 @@
-2025-05-12 15:18:46,434 ERROR: Exception on /login [GET] [in c:\users\student.laptop-47.009\documents\nowy folder\projekt\microblog\repozytorium\venv\lib\site-packages\flask\app.py:875]
+2025-05-09 17:48:54,643 INFO: Microblog startup [in C:\Users\Student.LAPTOP-47.009\Documents\Nowy folder\Projekt\microblog\app\__init__.py:43]
+2025-05-09 17:50:26,082 INFO: Microblog startup [in C:\Users\Student.LAPTOP-47.009\Documents\Nowy folder\Projekt\microblog\app\__init__.py:43]
+2025-05-09 17:50:31,902 INFO: Microblog startup [in C:\Users\Student.LAPTOP-47.009\Documents\Nowy folder\Projekt\microblog\app\__init__.py:43]
+2025-05-09 17:53:23,097 INFO: Microblog startup [in C:\Users\Student.LAPTOP-47.009\Documents\Nowy folder\Projekt\microblog\app\__init__.py:43]
+2025-05-09 17:57:31,667 INFO: Microblog startup [in C:\Users\Student.LAPTOP-47.009\Documents\Nowy folder\Projekt\microblog\app\__init__.py:43]
+2025-05-09 18:18:32,298 INFO: Microblog startup [in C:\Users\Student.LAPTOP-47.009\Documents\Nowy folder\Projekt\microblog\Repozytorium\app\__init__.py:43]
+2025-05-09 18:18:38,183 ERROR: Exception on / [GET] [in c:\users\student.laptop-47.009\documents\nowy folder\projekt\microblog\repozytorium\venv\lib\site-packages\flask\app.py:875]
 Traceback (most recent call last):
   File "c:\users\student.laptop-47.009\documents\nowy folder\projekt\microblog\repozytorium\venv\lib\site-packages\flask\app.py", line 1511, in wsgi_app
     response = self.full_dispatch_request()
@@ -8,8 +14,10 @@ Traceback (most recent call last):
     rv = self.dispatch_request()
   File "c:\users\student.laptop-47.009\documents\nowy folder\projekt\microblog\repozytorium\venv\lib\site-packages\flask\app.py", line 902, in dispatch_request
     return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
-  File "C:\Users\Student.LAPTOP-47.009\Documents\Nowy folder\Projekt\microblog\Repozytorium\app\routes.py", line 62, in login
-    return render_template('login.html', title='Sign In', form=form)
+  File "c:\users\student.laptop-47.009\documents\nowy folder\projekt\microblog\repozytorium\venv\lib\site-packages\flask_login\utils.py", line 290, in decorated_view
+    return current_app.ensure_sync(func)(*args, **kwargs)
+  File "C:\Users\Student.LAPTOP-47.009\Documents\Nowy folder\Projekt\microblog\Repozytorium\app\routes.py", line 32, in index
+    return render_template('index.html', title='Home', posts=posts)
   File "c:\users\student.laptop-47.009\documents\nowy folder\projekt\microblog\repozytorium\venv\lib\site-packages\flask\templating.py", line 150, in render_template
     return _render(app, template, context)
   File "c:\users\student.laptop-47.009\documents\nowy folder\projekt\microblog\repozytorium\venv\lib\site-packages\flask\templating.py", line 131, in _render
@@ -18,20 +26,16 @@ Traceback (most recent call last):
     self.environment.handle_exception()
   File "c:\users\student.laptop-47.009\documents\nowy folder\projekt\microblog\repozytorium\venv\lib\site-packages\jinja2\environment.py", line 942, in handle_exception
     raise rewrite_traceback_stack(source=source)
-  File "C:\Users\Student.LAPTOP-47.009\Documents\Nowy folder\Projekt\microblog\Repozytorium\app\templates\login.html", line 1, in top-level template code
+  File "C:\Users\Student.LAPTOP-47.009\Documents\Nowy folder\Projekt\microblog\Repozytorium\app\templates\index.html", line 1, in top-level template code
     {% extends "base.html" %}
-  File "C:\Users\Student.LAPTOP-47.009\Documents\Nowy folder\Projekt\microblog\Repozytorium\app\templates\base.html", line 32, in top-level template code
+  File "C:\Users\Student.LAPTOP-47.009\Documents\Nowy folder\Projekt\microblog\Repozytorium\app\templates\base.html", line 31, in top-level template code
     {% block content %}{% endblock %}
-  File "C:\Users\Student.LAPTOP-47.009\Documents\Nowy folder\Projekt\microblog\Repozytorium\app\templates\login.html", line 26, in block 'content'
-    <a href="{{ url_for('reset_password_request') }}">Click to Reset It</a>
-  File "c:\users\student.laptop-47.009\documents\nowy folder\projekt\microblog\repozytorium\venv\lib\site-packages\flask\app.py", line 1121, in url_for
-    return self.handle_url_build_error(error, endpoint, values)
-  File "c:\users\student.laptop-47.009\documents\nowy folder\projekt\microblog\repozytorium\venv\lib\site-packages\flask\app.py", line 1110, in url_for
-    rv = url_adapter.build(  # type: ignore[union-attr]
-  File "c:\users\student.laptop-47.009\documents\nowy folder\projekt\microblog\repozytorium\venv\lib\site-packages\werkzeug\routing\map.py", line 924, in build
-    raise BuildError(endpoint, values, method, self)
-werkzeug.routing.exceptions.BuildError: Could not build url for endpoint 'reset_password_request'. Did you mean 'edit_profile' instead?
-2025-05-12 15:18:49,645 ERROR: Exception on /login [GET] [in c:\users\student.laptop-47.009\documents\nowy folder\projekt\microblog\repozytorium\venv\lib\site-packages\flask\app.py:875]
+  File "C:\Users\Student.LAPTOP-47.009\Documents\Nowy folder\Projekt\microblog\Repozytorium\app\templates\index.html", line 6, in block 'content'
+    {{ form.hidden_tag() }}
+  File "c:\users\student.laptop-47.009\documents\nowy folder\projekt\microblog\repozytorium\venv\lib\site-packages\jinja2\environment.py", line 490, in getattr
+    return getattr(obj, attribute)
+jinja2.exceptions.UndefinedError: 'form' is undefined
+2025-05-09 18:18:45,409 ERROR: Exception on /index [GET] [in c:\users\student.laptop-47.009\documents\nowy folder\projekt\microblog\repozytorium\venv\lib\site-packages\flask\app.py:875]
 Traceback (most recent call last):
   File "c:\users\student.laptop-47.009\documents\nowy folder\projekt\microblog\repozytorium\venv\lib\site-packages\flask\app.py", line 1511, in wsgi_app
     response = self.full_dispatch_request()
@@ -41,8 +45,10 @@ Traceback (most recent call last):
     rv = self.dispatch_request()
   File "c:\users\student.laptop-47.009\documents\nowy folder\projekt\microblog\repozytorium\venv\lib\site-packages\flask\app.py", line 902, in dispatch_request
     return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
-  File "C:\Users\Student.LAPTOP-47.009\Documents\Nowy folder\Projekt\microblog\Repozytorium\app\routes.py", line 62, in login
-    return render_template('login.html', title='Sign In', form=form)
+  File "c:\users\student.laptop-47.009\documents\nowy folder\projekt\microblog\repozytorium\venv\lib\site-packages\flask_login\utils.py", line 290, in decorated_view
+    return current_app.ensure_sync(func)(*args, **kwargs)
+  File "C:\Users\Student.LAPTOP-47.009\Documents\Nowy folder\Projekt\microblog\Repozytorium\app\routes.py", line 32, in index
+    return render_template('index.html', title='Home', posts=posts)
   File "c:\users\student.laptop-47.009\documents\nowy folder\projekt\microblog\repozytorium\venv\lib\site-packages\flask\templating.py", line 150, in render_template
     return _render(app, template, context)
   File "c:\users\student.laptop-47.009\documents\nowy folder\projekt\microblog\repozytorium\venv\lib\site-packages\flask\templating.py", line 131, in _render
@@ -51,16 +57,12 @@ Traceback (most recent call last):
     self.environment.handle_exception()
   File "c:\users\student.laptop-47.009\documents\nowy folder\projekt\microblog\repozytorium\venv\lib\site-packages\jinja2\environment.py", line 942, in handle_exception
     raise rewrite_traceback_stack(source=source)
-  File "C:\Users\Student.LAPTOP-47.009\Documents\Nowy folder\Projekt\microblog\Repozytorium\app\templates\login.html", line 1, in top-level template code
+  File "C:\Users\Student.LAPTOP-47.009\Documents\Nowy folder\Projekt\microblog\Repozytorium\app\templates\index.html", line 1, in top-level template code
     {% extends "base.html" %}
-  File "C:\Users\Student.LAPTOP-47.009\Documents\Nowy folder\Projekt\microblog\Repozytorium\app\templates\base.html", line 32, in top-level template code
+  File "C:\Users\Student.LAPTOP-47.009\Documents\Nowy folder\Projekt\microblog\Repozytorium\app\templates\base.html", line 31, in top-level template code
     {% block content %}{% endblock %}
-  File "C:\Users\Student.LAPTOP-47.009\Documents\Nowy folder\Projekt\microblog\Repozytorium\app\templates\login.html", line 26, in block 'content'
-    <a href="{{ url_for('reset_password_request') }}">Click to Reset It</a>
-  File "c:\users\student.laptop-47.009\documents\nowy folder\projekt\microblog\repozytorium\venv\lib\site-packages\flask\app.py", line 1121, in url_for
-    return self.handle_url_build_error(error, endpoint, values)
-  File "c:\users\student.laptop-47.009\documents\nowy folder\projekt\microblog\repozytorium\venv\lib\site-packages\flask\app.py", line 1110, in url_for
-    rv = url_adapter.build(  # type: ignore[union-attr]
-  File "c:\users\student.laptop-47.009\documents\nowy folder\projekt\microblog\repozytorium\venv\lib\site-packages\werkzeug\routing\map.py", line 924, in build
-    raise BuildError(endpoint, values, method, self)
-werkzeug.routing.exceptions.BuildError: Could not build url for endpoint 'reset_password_request'. Did you mean 'edit_profile' instead?
+  File "C:\Users\Student.LAPTOP-47.009\Documents\Nowy folder\Projekt\microblog\Repozytorium\app\templates\index.html", line 6, in block 'content'
+    {{ form.hidden_tag() }}
+  File "c:\users\student.laptop-47.009\documents\nowy folder\projekt\microblog\repozytorium\venv\lib\site-packages\jinja2\environment.py", line 490, in getattr
+    return getattr(obj, attribute)
+jinja2.exceptions.UndefinedError: 'form' is undefined

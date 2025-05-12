@@ -1,4 +1,4 @@
-2025-05-12 15:18:46,434 ERROR: Exception on /login [GET] [in c:\users\student.laptop-47.009\documents\nowy folder\projekt\microblog\repozytorium\venv\lib\site-packages\flask\app.py:875]
+2025-05-12 15:18:53,915 ERROR: Exception on /login [GET] [in c:\users\student.laptop-47.009\documents\nowy folder\projekt\microblog\repozytorium\venv\lib\site-packages\flask\app.py:875]
 Traceback (most recent call last):
   File "c:\users\student.laptop-47.009\documents\nowy folder\projekt\microblog\repozytorium\venv\lib\site-packages\flask\app.py", line 1511, in wsgi_app
     response = self.full_dispatch_request()
@@ -31,7 +31,9 @@ Traceback (most recent call last):
   File "c:\users\student.laptop-47.009\documents\nowy folder\projekt\microblog\repozytorium\venv\lib\site-packages\werkzeug\routing\map.py", line 924, in build
     raise BuildError(endpoint, values, method, self)
 werkzeug.routing.exceptions.BuildError: Could not build url for endpoint 'reset_password_request'. Did you mean 'edit_profile' instead?
-2025-05-12 15:18:49,645 ERROR: Exception on /login [GET] [in c:\users\student.laptop-47.009\documents\nowy folder\projekt\microblog\repozytorium\venv\lib\site-packages\flask\app.py:875]
+2025-05-12 15:27:17,661 INFO: Microblog startup [in C:\Users\Student.LAPTOP-47.009\Documents\Nowy folder\Projekt\microblog\Repozytorium\app\__init__.py:45]
+2025-05-12 15:27:43,455 INFO: Microblog startup [in C:\Users\Student.LAPTOP-47.009\Documents\Nowy folder\Projekt\microblog\Repozytorium\app\__init__.py:45]
+2025-05-12 15:28:07,884 ERROR: Exception on /reset_password_request [GET] [in c:\users\student.laptop-47.009\documents\nowy folder\projekt\microblog\repozytorium\venv\lib\site-packages\flask\app.py:875]
 Traceback (most recent call last):
   File "c:\users\student.laptop-47.009\documents\nowy folder\projekt\microblog\repozytorium\venv\lib\site-packages\flask\app.py", line 1511, in wsgi_app
     response = self.full_dispatch_request()
@@ -41,8 +43,8 @@ Traceback (most recent call last):
     rv = self.dispatch_request()
   File "c:\users\student.laptop-47.009\documents\nowy folder\projekt\microblog\repozytorium\venv\lib\site-packages\flask\app.py", line 902, in dispatch_request
     return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
-  File "C:\Users\Student.LAPTOP-47.009\Documents\Nowy folder\Projekt\microblog\Repozytorium\app\routes.py", line 62, in login
-    return render_template('login.html', title='Sign In', form=form)
+  File "C:\Users\Student.LAPTOP-47.009\Documents\Nowy folder\Projekt\microblog\Repozytorium\app\routes.py", line 44, in reset_password_request
+    return render_template('reset_password_request.html',
   File "c:\users\student.laptop-47.009\documents\nowy folder\projekt\microblog\repozytorium\venv\lib\site-packages\flask\templating.py", line 150, in render_template
     return _render(app, template, context)
   File "c:\users\student.laptop-47.009\documents\nowy folder\projekt\microblog\repozytorium\venv\lib\site-packages\flask\templating.py", line 131, in _render
@@ -51,16 +53,42 @@ Traceback (most recent call last):
     self.environment.handle_exception()
   File "c:\users\student.laptop-47.009\documents\nowy folder\projekt\microblog\repozytorium\venv\lib\site-packages\jinja2\environment.py", line 942, in handle_exception
     raise rewrite_traceback_stack(source=source)
-  File "C:\Users\Student.LAPTOP-47.009\Documents\Nowy folder\Projekt\microblog\Repozytorium\app\templates\login.html", line 1, in top-level template code
+  File "C:\Users\Student.LAPTOP-47.009\Documents\Nowy folder\Projekt\microblog\Repozytorium\app\templates\reset_password_request.html", line 1, in top-level template code
     {% extends "base.html" %}
   File "C:\Users\Student.LAPTOP-47.009\Documents\Nowy folder\Projekt\microblog\Repozytorium\app\templates\base.html", line 32, in top-level template code
     {% block content %}{% endblock %}
-  File "C:\Users\Student.LAPTOP-47.009\Documents\Nowy folder\Projekt\microblog\Repozytorium\app\templates\login.html", line 26, in block 'content'
-    <a href="{{ url_for('reset_password_request') }}">Click to Reset It</a>
-  File "c:\users\student.laptop-47.009\documents\nowy folder\projekt\microblog\repozytorium\venv\lib\site-packages\flask\app.py", line 1121, in url_for
-    return self.handle_url_build_error(error, endpoint, values)
-  File "c:\users\student.laptop-47.009\documents\nowy folder\projekt\microblog\repozytorium\venv\lib\site-packages\flask\app.py", line 1110, in url_for
-    rv = url_adapter.build(  # type: ignore[union-attr]
-  File "c:\users\student.laptop-47.009\documents\nowy folder\projekt\microblog\repozytorium\venv\lib\site-packages\werkzeug\routing\map.py", line 924, in build
-    raise BuildError(endpoint, values, method, self)
-werkzeug.routing.exceptions.BuildError: Could not build url for endpoint 'reset_password_request'. Did you mean 'edit_profile' instead?
+  File "C:\Users\Student.LAPTOP-47.009\Documents\Nowy folder\Projekt\microblog\Repozytorium\app\templates\reset_password_request.html", line 8, in block 'content'
+    {{ form.password.label }}<br>
+  File "c:\users\student.laptop-47.009\documents\nowy folder\projekt\microblog\repozytorium\venv\lib\site-packages\jinja2\environment.py", line 490, in getattr
+    return getattr(obj, attribute)
+jinja2.exceptions.UndefinedError: 'app.forms.ResetPasswordRequestForm object' has no attribute 'password'
+2025-05-12 15:28:10,729 ERROR: Exception on /reset_password_request [GET] [in c:\users\student.laptop-47.009\documents\nowy folder\projekt\microblog\repozytorium\venv\lib\site-packages\flask\app.py:875]
+Traceback (most recent call last):
+  File "c:\users\student.laptop-47.009\documents\nowy folder\projekt\microblog\repozytorium\venv\lib\site-packages\flask\app.py", line 1511, in wsgi_app
+    response = self.full_dispatch_request()
+  File "c:\users\student.laptop-47.009\documents\nowy folder\projekt\microblog\repozytorium\venv\lib\site-packages\flask\app.py", line 919, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "c:\users\student.laptop-47.009\documents\nowy folder\projekt\microblog\repozytorium\venv\lib\site-packages\flask\app.py", line 917, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "c:\users\student.laptop-47.009\documents\nowy folder\projekt\microblog\repozytorium\venv\lib\site-packages\flask\app.py", line 902, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+  File "C:\Users\Student.LAPTOP-47.009\Documents\Nowy folder\Projekt\microblog\Repozytorium\app\routes.py", line 44, in reset_password_request
+    return render_template('reset_password_request.html',
+  File "c:\users\student.laptop-47.009\documents\nowy folder\projekt\microblog\repozytorium\venv\lib\site-packages\flask\templating.py", line 150, in render_template
+    return _render(app, template, context)
+  File "c:\users\student.laptop-47.009\documents\nowy folder\projekt\microblog\repozytorium\venv\lib\site-packages\flask\templating.py", line 131, in _render
+    rv = template.render(context)
+  File "c:\users\student.laptop-47.009\documents\nowy folder\projekt\microblog\repozytorium\venv\lib\site-packages\jinja2\environment.py", line 1295, in render
+    self.environment.handle_exception()
+  File "c:\users\student.laptop-47.009\documents\nowy folder\projekt\microblog\repozytorium\venv\lib\site-packages\jinja2\environment.py", line 942, in handle_exception
+    raise rewrite_traceback_stack(source=source)
+  File "C:\Users\Student.LAPTOP-47.009\Documents\Nowy folder\Projekt\microblog\Repozytorium\app\templates\reset_password_request.html", line 1, in top-level template code
+    {% extends "base.html" %}
+  File "C:\Users\Student.LAPTOP-47.009\Documents\Nowy folder\Projekt\microblog\Repozytorium\app\templates\base.html", line 32, in top-level template code
+    {% block content %}{% endblock %}
+  File "C:\Users\Student.LAPTOP-47.009\Documents\Nowy folder\Projekt\microblog\Repozytorium\app\templates\reset_password_request.html", line 8, in block 'content'
+    {{ form.password.label }}<br>
+  File "c:\users\student.laptop-47.009\documents\nowy folder\projekt\microblog\repozytorium\venv\lib\site-packages\jinja2\environment.py", line 490, in getattr
+    return getattr(obj, attribute)
+jinja2.exceptions.UndefinedError: 'app.forms.ResetPasswordRequestForm object' has no attribute 'password'
+2025-05-12 15:30:51,991 INFO: Microblog startup [in C:\Users\Student.LAPTOP-47.009\Documents\Nowy folder\Projekt\microblog\Repozytorium\app\__init__.py:46]
