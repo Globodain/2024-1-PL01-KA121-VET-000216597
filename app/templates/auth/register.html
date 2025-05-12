@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% import "bootstrap_wtf.html" as wtf %}
+{% from "card_template.html" import card %}
+
+{% block content %}
+{% call card(
+    title=_('Create Account'),
+    subtitle=_('Join our community today')
+  ) %}
+  {{ wtf.quick_form(form, action=url_for('auth.register')) }}
+
+  <div class="mt-4 text-center pt-3 border-top">
+    <p class="text-muted mb-2">{{ _('Already have an account?') }}</p>
+    <a href="{{ url_for('auth.login') }}" 
+       class="btn btn-outline-primary rounded-pill px-4">
+      <i class="bi bi-box-arrow-in-right me-2"></i>
+      {{ _('Sign In') }}
+    </a>
+  </div>
+{% endcall %}
+{% endblock %}

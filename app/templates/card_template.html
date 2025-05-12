@@ -1,0 +1,28 @@
+{% macro card(title, subtitle=None, footer=None, full_height=False) %}
+<div class="container py-5 {% if full_height %}min-vh-100 d-flex align-items-center{% endif %}">
+  <div class="row justify-content-center">
+    <div class="col-12 col-md-8 col-lg-6">
+      <div class="card shadow-lg border-0 rounded-4">
+        <div class="card-body p-5">
+          {% if title or subtitle %}
+          <div class="text-center mb-5">
+            {% if title %}<h1 class="h3 fw-bold mb-3">{{ title }}</h1>{% endif %}
+            {% if subtitle %}<p class="text-muted">{{ subtitle }}</p>{% endif %}
+          </div>
+          {% endif %}
+
+          <div class="card-content">
+            {{ caller() }}
+          </div>
+
+          {% if footer %}
+          <div class="mt-4 text-center pt-3 border-top">
+            {{ footer }}
+          </div>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endmacro %}

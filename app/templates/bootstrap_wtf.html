@@ -1,0 +1,104 @@
+{% macro form_field(field, autofocus, floating_label=false, inline_radio=false, icon=none) %}
+  {%- if field.type == 'BooleanField' %}
+  <div class="form-check form-switch mb-4">
+    {{ field(class='form-check-input' + (' is-invalid' if field.errors else ''), role="switch") }}
+    {{ field.label(class='form-check-label fw-bold') }}
+    {%- for error in field.errors %}
+    <div class="invalid-feedback d-block">{{ error }}</div>
+    {%- endfor %}
+  </div>
+  {%- elif field.type == 'RadioField' %}
+  <div class="mb-4">
+    {{ field.label(class='form-label fw-bold text-muted mb-3') }}
+    <div class="{% if inline_radio %}btn-group{% else %}d-flex flex-column gap-2{% endif %}">
+      {%- for item in field %}
+      <div class="form-check{% if inline_radio %} form-check-inline{% endif %}">
+        {{ item(class='form-check-input' + (' is-invalid' if field.errors else '')) }}
+        {{ item.label(class='form-check-label') }}
+      </div>
+      {%- endfor %}
+    </div>
+    {%- for error in field.errors %}
+    <div class="invalid-feedback d-block">{{ error }}</div>
+    {%- endfor %}
+  </div>
+  {%- elif field.type == 'SelectField' %}
+  <div class="mb-4">
+    {{ field.label(class='form-label fw-bold text-muted') }}
+    <div class="input-group">
+      {{ field(class='form-select' + (' is-invalid' if field.errors else '')) }}
+    </div>
+    {%- for error in field.errors %}
+    <div class="invalid-feedback d-block">{{ error }}</div>
+    {%- endfor %}
+  </div>
+  {%- elif field.type == 'TextAreaField' %}
+  <div class="form-floating mb-4">
+    {% if autofocus %}
+      {{ field(class='form-control' + (' is-invalid' if field.errors else ''), autofocus=True, placeholder=" ", style="height: 120px") }}
+    {% else %}
+      {{ field(class='form-control' + (' is-invalid' if field.errors else ''), placeholder=" ", style="height: 120px") }}
+    {% endif %}
+    {{ field.label(class='text-muted') }}
+    {%- for error in field.errors %}
+    <div class="invalid-feedback d-block">{{ error }}</div>
+    {%- endfor %}
+  </div>
+  {%- elif field.type == 'SubmitField' %}
+  <div class="d-grid mt-4">
+    {{ field(class='btn btn-lg btn-primary rounded-pill py-2') }}
+  </div>
+  {%- else %}
+  <div class="form-floating mb-4">
+    {% if autofocus %}
+      {{ field(class='form-control' + (' is-invalid' if field.errors else ''), autofocus=True, placeholder=" ") }}
+    {% else %}
+      {{ field(class='form-control' + (' is-invalid' if field.errors else ''), placeholder=" ") }}
+    {% endif %}
+    {{ field.label(class='text-muted') }}
+    {%- if icon %}
+    <span class="input-group-text position-absolute end-0 top-0 bottom-0 bg-transparent border-0">
+      <i class="{{ icon }}"></i>
+    </span>
+    {%- endif %}
+    {%- for error in field.errors %}
+    <div class="invalid-feedback d-block">{{ error }}</div>
+    {%- endfor %}
+  </div>
+  {%- endif %}
+{% endmacro %}
+
+{% macro quick_form(form, action="", method="post", id="", novalidate=False, floating_labels=True, card_style=False, horizontal=False) %}
+<form
+  {%- if action != None %} action="{{ action }}"{% endif -%}
+  {%- if method %} method="{{ method }}"{% endif %}
+  {%- if id %} id="{{ id }}"{% endif -%}
+  {%- if novalidate %} novalidate{% endif -%}
+  class="{% if horizontal %}row g-4{% endif %}{% if card_style %} card border-0 shadow p-4{% endif %}">
+
+  {{ form.hidden_tag() }}
+  
+  {# Form-wide error messages #}
+  {%- for field, errors in form.errors.items() %}
+    {%- if form[field].widget.input_type == 'hidden' %}
+      <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        {%- for error in errors %}
+        {{ error }}{% if not loop.last %}<br>{% endif %}
+        {%- endfor %}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
+    {%- endif %}
+  {%- endfor %}
+
+  {% set ns = namespace(first_field=true) %}
+  {%- for field in form %}
+    {% if field.widget.input_type != 'hidden' -%}
+      <div class="{% if horizontal %}col-md-6{% endif %}">
+        {{ form_field(field, ns.first_field, floating_labels) }}
+      </div>
+      {% set ns.first_field = false %}
+    {%- endif %}
+  {%- endfor %}
+
+</form>
+{% endmacro %}
