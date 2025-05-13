@@ -1,0 +1,55 @@
+<div class="card mb-4 shadow-sm">
+    <div class="card-body">
+      <div class="d-flex align-items-start">
+        <img src="{{ user.avatar(64) }}" class="rounded-circle me-3" alt="{{ user.username }}">
+        <div class="flex-grow-1">
+          <h5 class="card-title mb-1">
+            <a href="{{ url_for('main.user', username=user.username) }}" class="text-decoration-none">
+              {{ user.username }}
+            </a>
+          </h5>
+          {% if user.about_me %}<p class="card-text text-muted small">{{ user.about_me }}</p>{% endif %}
+          <div class="d-flex flex-wrap gap-2 mt-2">
+            <span class="badge bg-light text-dark">
+              <i class="bi bi-people me-1"></i>
+              {{ _('%(count)d followers', count=user.followers_count()) }}
+            </span>
+            <span class="badge bg-light text-dark">
+              <i class="bi bi-person-heart me-1"></i>
+              {{ _('%(count)d following', count=user.following_count()) }}
+            </span>
+            {% if user.last_seen %}
+            <span class="badge bg-light text-dark">
+              <i class="bi bi-clock me-1"></i>
+              {{ moment(user.last_seen).format('lll') }}
+            </span>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+  
+      {% if user != current_user %}
+      <div class="mt-3">
+        {% if not current_user.is_following(user) %}
+        <form action="{{ url_for('main.follow', username=user.username) }}" method="post" class="d-inline">
+          {{ form.hidden_tag() }}
+          <button type="submit" class="btn btn-sm btn-outline-primary rounded-pill">
+            <i class="bi bi-person-plus me-1"></i> {{ _('Follow') }}
+          </button>
+        </form>
+        {% else %}
+        <form action="{{ url_for('main.unfollow', username=user.username) }}" method="post" class="d-inline">
+          {{ form.hidden_tag() }}
+          <button type="submit" class="btn btn-sm btn-outline-danger rounded-pill">
+            <i class="bi bi-person-dash me-1"></i> {{ _('Unfollow') }}
+          </button>
+        </form>
+        {% endif %}
+        <a href="{{ url_for('main.send_message', recipient=user.username) }}" 
+           class="btn btn-sm btn-outline-secondary rounded-pill ms-2">
+          <i class="bi bi-envelope me-1"></i> {{ _('Message') }}
+        </a>
+      </div>
+      {% endif %}
+    </div>
+  </div>

@@ -1,26 +1,35 @@
 {% extends "base.html" %}
 {% import "bootstrap_wtf.html" as wtf %}
+{% from "card_template.html" import card %}
 
 {% block content %}
-    <h1>{{ _('Hi, %(username)s!', username=current_user.username) }}</h1>
-    {% if form %}
-    {{ wtf.quick_form(form) }}
-    {% endif %}
-    {% for post in posts %}
-        {% include '_post.html' %}
-    {% endfor %}
-    <nav aria-label="Post navigation">
-        <ul class="pagination">
-            <li class="page-item{% if not prev_url %} disabled{% endif %}">
-                <a class="page-link" href="{{ prev_url }}">
-                    <span aria-hidden="true">&larr;</span> {{ _('Newer posts') }}
-                </a>
-            </li>
-            <li class="page-item{% if not next_url %} disabled{% endif %}">
-                <a class="page-link" href="{{ next_url }}">
-                    {{ _('Older posts') }} <span aria-hidden="true">&rarr;</span>
-                </a>
-            </li>
-        </ul>
-    </nav>
+{% call card(
+    title=_('Hi, %(username)s!', username=current_user.username),
+    full_height=False
+  ) %}
+  {% if form %}
+  <div class="mb-4">
+    {{ wtf.quick_form(form, action=url_for('main.index')) }}
+  </div>
+  {% endif %}
+
+  {% for post in posts %}
+    {% include '_post.html' %}
+  {% endfor %}
+
+  <nav aria-label="Post navigation" class="mt-4">
+    <ul class="pagination justify-content-center">
+      <li class="page-item{% if not prev_url %} disabled{% endif %}">
+        <a class="page-link" href="{{ prev_url or '#' }}">
+          <i class="bi bi-arrow-left"></i> {{ _('Newer posts') }}
+        </a>
+      </li>
+      <li class="page-item{% if not next_url %} disabled{% endif %}">
+        <a class="page-link" href="{{ next_url or '#' }}">
+          {{ _('Older posts') }} <i class="bi bi-arrow-right"></i>
+        </a>
+      </li>
+    </ul>
+  </nav>
+{% endcall %}
 {% endblock %}
