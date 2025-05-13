@@ -6,6 +6,7 @@ import sqlalchemy as sa
 from app.models import User
 from urllib.parse import urlsplit
 from datetime import datetime, timezone
+from app.forms import EmptyForm
 
 @app.route('/')
 @app.route('/index')
@@ -58,7 +59,8 @@ def user(username):
         {'author': user, 'body': 'Testing'},
         {'author': user, 'body': 'Testing again'}
     ]
-    return render_template('user.html', user=user, posts=posts)
+    form = EmptyForm()
+    return render_template('user.html', user=user, posts=posts, form=form)
 
 @app.before_request
 def before_request():
@@ -80,3 +82,41 @@ def edit_profile():
         form.username.data = current_user.username
         form.about_me.data = current_user.about_me
     return render_template('edit_profile.html', title='Edit Profile', form=form)
+
+@app.route('/follow/<username>', methods=['POST'])
+@login_required
+def follow(username):
+    form = EmptyForm()
+    if form.validate_on_submit():
+        user = db.session.scalar(sa.select(User).where(User.username == username))
+        if User is None:
+            flash(f'User {username} not found.')
+            return redirect(url_for('index'))
+        if user == current_user:
+            flash(f'You cannot follow yourself.')
+            return redirect(url_for('user', username=username))
+        current_user.follow(user)
+        db.session.commit()
+        flash(f'You are now following {username}')
+        return redirect(url_for('user', username=username))
+    else:
+        return redirect(url_for('index'))
+    
+@app.route('/unfollow/<username>', methods=['POST'])
+@login_required
+def unfollow(username):
+    form = EmptyForm()
+    if form.validate_on_submit():
+        user = db.session.scalar(sa.select(User).where(User.username == username))
+        if User is None:
+            flash(f'User {username} not found.')
+            return redirect(url_for('index'))
+        if user == current_user:
+            flash(f'You cannot unfollow yourself')
+            return redirect(url_for('user', username=username))
+        current_user.unfollow(user)
+        db.session.commit()
+        flash(f'You are no longer following {username}')
+        return redirect(url_for('user', username=username))
+    else:
+        return redirect(url_for('index'))
