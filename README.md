@@ -3,7 +3,7 @@
 A simple Flask + MongoDB blog application in Python 3.11
 
 
-## Base Project Report
+## 📝 Base Project Report
 
 **Technologies & Libraries**  
 - **Flask** - web framework  
