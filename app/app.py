@@ -15,12 +15,12 @@ from datetime import datetime
 from werkzeug.security import (
     generate_password_hash, check_password_hash
 )
-from forms import (
+from .forms import (
     LoginForm, RegisterForm,
     ProfileForm, PostForm, CommentForm
 )
 
-app = Flask(__name__)
+app = Flask(__name__, static_folder='../static', static_url_path='/static')
 app.config.update(
     SECRET_KEY='your_secret_key_here',
     MONGO_URI='mongodb://localhost:27017/blog_app',
@@ -79,17 +79,27 @@ def index():
 def post_detail(post_id):
     post = mongo.db.posts.find_one({'_id': ObjectId(post_id)})
     if not post:
-        return "Post not found", 404
+        return render_template('404.html'), 404
 
     # Handle "like"
     if request.method == 'POST' and request.form.get('action') == 'like':
         if not current_user.is_authenticated:
             flash('Please log in to like posts')
             return redirect(url_for('login'))
-        mongo.db.posts.update_one(
-            {'_id': ObjectId(post_id)},
-            {'$inc': {'likes': 1}}
+
+        user_oid = ObjectId(current_user.id)
+        res = mongo.db.posts.update_one(
+            {
+                '_id': ObjectId(post_id),
+                'liked_by': {'$ne': user_oid}
+            },
+            {
+                '$addToSet': {'liked_by': user_oid},
+                '$inc': {'likes': 1}
+            }
         )
+        if res.matched_count == 0:
+            flash('You have already liked this post')
         return redirect(url_for('post_detail', post_id=post_id))
 
     # Handle new comment
@@ -205,7 +215,6 @@ def profile():
 @app.route('/create', methods=['GET', 'POST'])
 @login_required
 def create_post():
-    # Both 'admin' and 'user' can create here
     form = PostForm()
     if form.validate_on_submit():
         mongo.db.posts.insert_one({
@@ -213,6 +222,7 @@ def create_post():
             'body': form.body.data,
             'created_at': datetime.utcnow(),
             'likes': 0,
+            'liked_by': [],            # initialize liked_by list
             'author_id': ObjectId(current_user.id)
         })
         flash('Your post has been published!')
@@ -225,7 +235,6 @@ def create_post():
 def admin_page():
     if current_user.role != 'admin':
         return "Access denied", 403
-    # Admin panel still allows post creation if you wish
     form = PostForm()
     if form.validate_on_submit():
         mongo.db.posts.insert_one({
@@ -233,6 +242,7 @@ def admin_page():
             'body': form.body.data,
             'created_at': datetime.utcnow(),
             'likes': 0,
+            'liked_by': [],            # initialize liked_by list
             'author_id': ObjectId(current_user.id)
         })
         flash('New post added')
@@ -240,20 +250,27 @@ def admin_page():
     posts = list(mongo.db.posts.find().sort('created_at', -1))
     return render_template('admin.html', form=form, posts=posts)
 
+
 @app.route('/admin/delete/<post_id>', methods=['POST'])
 @login_required
 def admin_delete_post(post_id):
     if current_user.role != 'admin':
         return "Access denied", 403
-
     mongo.db.posts.delete_one({'_id': ObjectId(post_id)})
     mongo.db.comments.delete_many({'post_id': ObjectId(post_id)})
     flash('Post has been deleted')
     return redirect(url_for('admin_page'))
 
 
+# Error handlers — these simply render templates; no rollback needed
+@app.errorhandler(404)
+def not_found_error(error):
+    return render_template('404.html'), 404
 
+@app.errorhandler(500)
+def internal_error(error):
+    return render_template('500.html'), 500
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True, host="0.0.0.0", port=5000)
