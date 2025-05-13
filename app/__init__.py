@@ -10,6 +10,8 @@ from flask_moment import Moment
 from flask_babel import Babel, lazy_gettext as _l
 from elasticsearch import Elasticsearch
 from config import Config
+from redis import Redis
+import rq
 
 
 def get_locale():
@@ -50,6 +52,9 @@ def create_app(config_class=Config):
 
     from app.cli import bp as cli_bp
     app.register_blueprint(cli_bp)
+
+    app.redis = Redis.from_url(app.config['REDIS_URL'])
+    app.task_queue = rq.Queue('microblog-tasks', connection=app.redis)
 
     if not app.debug and not app.testing:
         if app.config['MAIL_SERVER']:
