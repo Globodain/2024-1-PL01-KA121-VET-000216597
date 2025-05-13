@@ -13,6 +13,17 @@ pip install -r requirements.txt
 
 
 ------------------------------------------------
+Database migrations and updates
+------------------------------------------------
+Execute this to create a new migration:
+flask db migrate -m "{optional name}"
+
+Execute this to upgrade database through all migrations:
+flask db upgrade
+
+
+
+------------------------------------------------
 Flask-Babel
 ------------------------------------------------
 
